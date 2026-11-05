@@ -8,7 +8,7 @@ app_license = "mit"
 # Apps
 # ------------------
 
-# required_apps = []
+required_apps = ["erpnext", "hrms"]
 
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [
@@ -268,7 +268,7 @@ app_license = "mit"
 # on_social_login = "habtech_erp.auth.on_social_login"
 
 # Automatically update python controller files with type annotations for this app.
-# export_python_type_annotations = True
+export_python_type_annotations = True
 
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
@@ -279,3 +279,22 @@ app_license = "mit"
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
 
+
+# Fixtures (UI customizations exported into this app)
+# ----------------------------------------------------
+# Export with ./scripts/export-customizations.sh (bench export-fixtures --app habtech_erp).
+# Every entry MUST be filtered to our records so core frappe/erpnext/hrms records are never
+# exported; tests/test_fixtures_config.py enforces this. See docs/decisions/0003 in the
+# workspace repo. Records need "Module (for export)" = HABTech ERP (Customize Form does not
+# set it). Workflow has no module field, so workflow names must start with "HABTech".
+
+HABTECH_MODULE = "HABTech ERP"
+
+fixtures = [
+	{"dt": "Custom Field", "filters": [["module", "=", HABTECH_MODULE]]},
+	{"dt": "Property Setter", "filters": [["module", "=", HABTECH_MODULE]]},
+	{"dt": "Client Script", "filters": [["module", "=", HABTECH_MODULE]]},
+	{"dt": "Server Script", "filters": [["module", "=", HABTECH_MODULE]]},
+	{"dt": "Workflow", "filters": [["name", "like", "HABTech%"]]},
+	{"dt": "Print Format", "filters": [["module", "=", HABTECH_MODULE], ["standard", "=", "No"]]},
+]
